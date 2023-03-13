@@ -7,7 +7,7 @@ export const quiz = {
       option2: "Jackson Browne",
       option3: "Jackson Wang",
       option4: "Millie Jackson",
-      rightOption: 1,
+      rightOption: "Michael Jackson",
     },
     {
       prompt: "Which one of the following song is not from the Beatles?",
@@ -15,7 +15,7 @@ export const quiz = {
       option2: "All you need is love",
       option3: "Here comes the sun",
       option4: "Strawberry fields forever",
-      rightOption: 1,
+      rightOption: "Like a rolling stone",
     },
     {
       prompt: "In which UK city was Oasis formed?",
@@ -23,7 +23,7 @@ export const quiz = {
       option2: "Oxford",
       option3: "Birmingham",
       option4: "Manchester",
-      rightOption: 1,
+      rightOption: "London",
     },
     {
       prompt: "Who is the lead singer of Colplay",
@@ -31,7 +31,7 @@ export const quiz = {
       option2: "Liam Gallagher",
       option3: "Robert Plant",
       option4: "Bono",
-      rightOption: 1,
+      rightOption: "Chris Martin",
     },
     {
       prompt: "Which song is Pharrell Williams known for?",
@@ -39,7 +39,7 @@ export const quiz = {
       option2: "Angry",
       option3: "Happy",
       option4: "Hopeful",
-      rightOption: 1,
+      rightOption: "Sad",
     },
     {
       prompt: "Which TV competition made One Direction famous?",
@@ -47,7 +47,7 @@ export const quiz = {
       option2: "The Voice",
       option3: "Britain’s Got a Talent",
       option4: "Eurovision",
-      rightOption: 1,
+      rightOption: "The X Factor",
     },
     {
       prompt: "Where was Bob Marley from?",
@@ -55,7 +55,7 @@ export const quiz = {
       option2: "Costa Rica",
       option3: "Brazil",
       option4: "Jamaica",
-      rightOption: 1,
+      rightOption: "Cuba",
     },
     {
       prompt: "In which city were the Backstreet Boys formed?",
@@ -63,7 +63,7 @@ export const quiz = {
       option2: "Orlando, Florida",
       option3: "Memphis, Tennessee",
       option4: "Dublin, Ireland",
-      rightOption: 1,
+      rightOption: "London, UK",
     },
     {
       prompt: "Which one of the following is not a Johnny Cash song?",
@@ -71,7 +71,7 @@ export const quiz = {
       option2: "Folsom Prison Blues",
       option3: "Suspicious Minds",
       option4: "Walk the line",
-      rightOption: 1,
+      rightOption: "Hurt",
     },
     {
       prompt: "What type of music is Metallica known for?",
@@ -79,7 +79,7 @@ export const quiz = {
       option2: "Country",
       option3: "Rap",
       option4: "Heavy Metal",
-      rightOption: 4,
+      rightOption: "Folk",
     },
   ],
 };

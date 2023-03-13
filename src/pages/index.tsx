@@ -304,7 +304,7 @@ export const Results = ({
 
 export const Timer = ({ handleSubmit }: { handleSubmit: () => void }) => {
   var countDownDate1 = new Date("Jul 25, 2021 16:37:52").getTime();
-  var countDownDate2 = new Date("Jul 25, 2021 16:37:49").getTime();
+  var countDownDate2 = new Date("Jul 25, 2021 16:34:52").getTime();
 
   const [timeleft, setTimeLeft] = useState(countDownDate1 - countDownDate2);
 

@@ -15,20 +15,38 @@ const Home: NextPage = () => {
       completedQuestions.filter((q) => q.questionIndex === currentQuestion)
         .length > 0
     ) {
-      console.log("made it into if");
-      const newCompletedQuestions = completedQuestions.filter((q) => {
-        if (q.questionIndex === currentQuestion) {
-          q.selectedAnswer = chosenAnswer;
-        }
-        return q;
-      });
-      setCompletedQuestions(newCompletedQuestions);
+      console.log("made it into the first if");
+      if (chosenAnswer != 0) {
+        console.log("made it into the second if");
+        const newCompletedQuestions = completedQuestions.filter((q) => {
+          if (q.questionIndex === currentQuestion) {
+            q.selectedAnswer = chosenAnswer;
+          }
+          return q;
+        });
+        setCompletedQuestions(newCompletedQuestions);
+      } else {
+        console.log("made it into the first else");
+        const newCompletedQuestions = completedQuestions.filter((q) => {
+          if (q.questionIndex != currentQuestion) {
+            return q;
+          }
+
+          setCompletedQuestions(newCompletedQuestions);
+        });
+      }
     } else {
-      console.log("made it into else if");
-      setCompletedQuestions((prevQuestions) => [
-        ...prevQuestions,
-        { questionIndex: currentQuestion, selectedAnswer: chosenAnswer },
-      ]);
+      console.log("made it into the second else");
+      if (chosenAnswer != 0) {
+        console.log("made it into the third if");
+        setCompletedQuestions((prev) => [
+          ...prev,
+          { questionIndex: currentQuestion, selectedAnswer: chosenAnswer },
+        ]);
+      } else {
+        console.log("made it into the third else");
+        return;
+      }
     }
     setChosenAnswer(0);
   };
@@ -58,9 +76,6 @@ const Home: NextPage = () => {
     }
   };
 
-  console.log(completedQuestions);
-  console.log(chosenAnswer);
-
   const handleChooseAnswer = (_optionIndex: number) => {
     if (chosenAnswer === _optionIndex) {
       setChosenAnswer(0);
@@ -68,6 +83,8 @@ const Home: NextPage = () => {
       setChosenAnswer(_optionIndex);
     }
   };
+
+  const handleSubmit = () => {};
 
   useEffect(() => {
     completedQuestions.filter((q) => {
@@ -163,7 +180,7 @@ const Home: NextPage = () => {
             </button>
           ) : (
             <button
-              onClick={handleNext}
+              onClick={handleSubmit}
               className="w-max cursor-pointer rounded-full bg-purple p-6 text-2xl text-white shadow-equal transition-all hover:bg-fuchsia-800"
             >
               Submit

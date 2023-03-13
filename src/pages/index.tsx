@@ -141,11 +141,11 @@ const Home: NextPage = () => {
               Back
             </button>
           ) : null}
-          <button
-            onClick={handleNext}
-            className="w-max cursor-pointer rounded-full bg-purple p-6 text-2xl text-white shadow-equal transition-all hover:bg-fuchsia-800"
-          >
-            {currentQuestion < quiz.questions.length - 1 ? (
+          {currentQuestion < quiz.questions.length - 1 ? (
+            <button
+              onClick={handleNext}
+              className="w-max cursor-pointer rounded-full bg-purple p-6 text-2xl text-white shadow-equal transition-all hover:bg-fuchsia-800"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -160,10 +160,15 @@ const Home: NextPage = () => {
                   d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
                 />
               </svg>
-            ) : (
-              "Submit"
-            )}
-          </button>
+            </button>
+          ) : (
+            <button
+              onClick={handleNext}
+              className="w-max cursor-pointer rounded-full bg-purple p-6 text-2xl text-white shadow-equal transition-all hover:bg-fuchsia-800"
+            >
+              Submit
+            </button>
+          )}
         </div>
         <div
           className={`grid auto-cols-max grid-flow-col gap-10 justify-self-center grid-cols-${quiz.questions.length}`}

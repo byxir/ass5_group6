@@ -31,9 +31,8 @@ const Home: NextPage = () => {
           if (q.questionIndex != currentQuestion) {
             return q;
           }
-
-          setCompletedQuestions(newCompletedQuestions);
         });
+        setCompletedQuestions(newCompletedQuestions);
       }
     } else {
       console.log("made it into the second else");

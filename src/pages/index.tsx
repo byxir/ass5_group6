@@ -1,33 +1,54 @@
 import { type NextPage } from "next";
-import Head from "next/head";
-import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { quiz } from "~/hardcoded_questions";
-import localFont from "next/font/local";
 
 const Home: NextPage = () => {
   const [showTime, setShowTime] = useState(true);
-  const [completedQuestions, setCompletedQuestions] = useState<number[]>([
-    1, 2, 3,
-  ]);
+  const [completedQuestions, setCompletedQuestions] = useState<
+    { questionIndex: number; selectedAnswer: number }[]
+  >([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [chosenAnswer, setChosenAnswer] = useState<number | null>(null);
+  const [chosenAnswer, setChosenAnswer] = useState<number>(0);
+
+  const handleAddQuestion = () => {
+    if (
+      completedQuestions.filter((q) => q.questionIndex === currentQuestion)
+        .length > 0
+    ) {
+      console.log("made it into if");
+      const newCompletedQuestions = completedQuestions.filter((q) => {
+        if (q.questionIndex === currentQuestion) {
+          q.selectedAnswer = chosenAnswer;
+        }
+        return q;
+      });
+      setCompletedQuestions(newCompletedQuestions);
+    } else {
+      console.log("made it into else if");
+      setCompletedQuestions((prevQuestions) => [
+        ...prevQuestions,
+        { questionIndex: currentQuestion, selectedAnswer: chosenAnswer },
+      ]);
+    }
+    setChosenAnswer(0);
+  };
 
   const handleNext = () => {
+    handleAddQuestion();
     if (currentQuestion < quiz.questions.length - 1) {
       setCurrentQuestion((prevCurrentQuestion) => prevCurrentQuestion + 1);
-    } else {
     }
   };
 
   const handleBack = () => {
+    handleAddQuestion();
     if (currentQuestion > 0) {
       setCurrentQuestion((prevCurrentQuestion) => prevCurrentQuestion - 1);
-    } else {
     }
   };
 
   const handleJump = (_question: number) => {
+    handleAddQuestion();
     if (_question > 0 && _question < quiz.questions.length - 1) {
       setCurrentQuestion(_question);
     } else if (_question <= 0) {
@@ -37,6 +58,26 @@ const Home: NextPage = () => {
     }
   };
 
+  console.log(completedQuestions);
+  console.log(chosenAnswer);
+
+  const handleChooseAnswer = (_optionIndex: number) => {
+    if (chosenAnswer === _optionIndex) {
+      setChosenAnswer(0);
+    } else {
+      setChosenAnswer(_optionIndex);
+    }
+  };
+
+  useEffect(() => {
+    completedQuestions.filter((q) => {
+      if (q.questionIndex === currentQuestion) {
+        setChosenAnswer(q.selectedAnswer);
+      }
+      return q;
+    });
+  }, [currentQuestion]);
+
   return (
     <div className="grid h-screen w-screen items-center justify-items-center bg-bg p-6 font-montserratBold text-almostblack">
       <div className="grid h-max w-full max-w-5xl rounded-3xl bg-gradient-to-br  from-linearStart to-linearEnd p-12 text-3xl shadow-2xl">
@@ -45,7 +86,7 @@ const Home: NextPage = () => {
         </p>
         <div className="mb-12 grid grid-cols-2 grid-rows-2 gap-6">
           <div
-            onClick={() => setChosenAnswer(1)}
+            onClick={() => handleChooseAnswer(1)}
             className={`grid cursor-pointer items-center rounded-xl bg-element px-10 py-10 text-2xl transition-all hover:bg-neutral-300 ${
               chosenAnswer === 1
                 ? "border-4 border-purple shadow-equal"
@@ -55,7 +96,7 @@ const Home: NextPage = () => {
             {quiz.questions[currentQuestion]?.option1}
           </div>
           <div
-            onClick={() => setChosenAnswer(2)}
+            onClick={() => handleChooseAnswer(2)}
             className={`grid cursor-pointer items-center rounded-xl bg-element px-10 py-10 text-2xl transition-all hover:bg-neutral-300 ${
               chosenAnswer === 2
                 ? "border-4 border-purple shadow-equal"
@@ -65,7 +106,7 @@ const Home: NextPage = () => {
             {quiz.questions[currentQuestion]?.option2}
           </div>
           <div
-            onClick={() => setChosenAnswer(3)}
+            onClick={() => handleChooseAnswer(3)}
             className={`grid cursor-pointer items-center rounded-xl bg-element px-10 py-10 text-2xl transition-all hover:bg-neutral-300 ${
               chosenAnswer === 3
                 ? "border-4 border-purple shadow-equal"
@@ -75,7 +116,7 @@ const Home: NextPage = () => {
             {quiz.questions[currentQuestion]?.option3}
           </div>
           <div
-            onClick={() => setChosenAnswer(4)}
+            onClick={() => handleChooseAnswer(4)}
             className={`grid cursor-pointer items-center rounded-xl bg-element px-10 py-10 text-2xl transition-all hover:bg-neutral-300 ${
               chosenAnswer === 4
                 ? "border-4 border-purple shadow-equal"
@@ -135,7 +176,8 @@ const Home: NextPage = () => {
               <button
                 onClick={() => handleJump(index)}
                 className={`grid h-10 w-10 cursor-pointer items-center justify-items-center rounded-full bg-element text-lg transition-all hover:bg-neutral-300 ${
-                  completedQuestions.includes(index + 1)
+                  completedQuestions.filter((q) => q.questionIndex === index)
+                    .length > 0
                     ? "border-2 border-almostblack"
                     : ""
                 } ${

@@ -25,9 +25,7 @@ const Home: NextPage = () => {
       completedQuestions.filter((q) => q.questionIndex === currentQuestion)
         .length > 0
     ) {
-      console.log("made it into the first if");
       if (chosenAnswer != 0) {
-        console.log("made it into the second if");
         const newCompletedQuestions = completedQuestions.filter((q) => {
           if (q.questionIndex === currentQuestion) {
             q.selectedAnswer = chosenAnswer;
@@ -36,7 +34,6 @@ const Home: NextPage = () => {
         });
         setCompletedQuestions(newCompletedQuestions);
       } else {
-        console.log("made it into the first else");
         const newCompletedQuestions = completedQuestions.filter((q) => {
           if (q.questionIndex != currentQuestion) {
             return q;
@@ -45,9 +42,7 @@ const Home: NextPage = () => {
         setCompletedQuestions(newCompletedQuestions);
       }
     } else {
-      console.log("made it into the second else");
       if (chosenAnswer != 0) {
-        console.log("made it into the third if");
         setCompletedQuestions((prev) => [
           ...prev,
           {
@@ -57,7 +52,6 @@ const Home: NextPage = () => {
           },
         ]);
       } else {
-        console.log("made it into the third else");
         return;
       }
     }
@@ -250,6 +244,7 @@ const Home: NextPage = () => {
       ) : (
         <Results completedQuestions={completedQuestions} />
       )}
+      {!submitted ? <Timer handleSubmit={() => setSubmitted(true)} /> : null}
     </div>
   );
 };
@@ -261,6 +256,15 @@ export const Results = ({
 }: {
   completedQuestions: IcompletedQuestion[];
 }) => {
+  for (let i = 0; i < quiz.questions.length; i++) {
+    if (completedQuestions.filter((q) => q.questionIndex === i).length === 0) {
+      completedQuestions.push({
+        questionIndex: i,
+        selectedAnswer: 0,
+        selectedAnswerString: "",
+      });
+    }
+  }
   const newCompletedQuestions = completedQuestions.sort(
     (a: IcompletedQuestion, b: IcompletedQuestion) =>
       a.questionIndex > b.questionIndex ? 1 : -1
@@ -294,6 +298,37 @@ export const Results = ({
           )}
         </div>
       ))}
+    </div>
+  );
+};
+
+export const Timer = ({ handleSubmit }: { handleSubmit: () => void }) => {
+  var countDownDate1 = new Date("Jul 25, 2021 16:37:52").getTime();
+  var countDownDate2 = new Date("Jul 25, 2021 16:37:49").getTime();
+
+  const [timeleft, setTimeLeft] = useState(countDownDate1 - countDownDate2);
+
+  var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => prev - 1000);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  if (timeleft <= 0) {
+    handleSubmit();
+  }
+
+  return (
+    <div className="grid h-max self-start">
+      <div className="h-max">
+        00:0{minutes}:{seconds < 10 ? "0" : null}
+        {seconds}
+      </div>
     </div>
   );
 };
